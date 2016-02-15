@@ -23,11 +23,6 @@ void setup(){
 		points[i] = new PVector(0.0, 0.0);
 	}
 
-	textFont(loadFont("Helvetica-48.vlw"));
-	textSize(38);
-	textLeading(36);
-	textAlign(LEFT, TOP);
-
 	strokeWeight(3);
 	stroke(BLUE);
 	noFill();
@@ -52,8 +47,6 @@ void draw(){
 		points[i].y = int(points[i].y);
 	}
 
-	fill(BLACK);
-	text("Hyper\nContemporary\nInstitute", margin, margin);
 
 
 	//DRAWING
