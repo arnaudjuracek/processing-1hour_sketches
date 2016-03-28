@@ -1,87 +1,42 @@
-ArrayList<PVector> points, t_points;
-float mrgn = 50, w, h, x, y;
+ArrayList<Cuboid> cuboids;
 
 void setup(){
 	size(800, 800);
+		background(200);
 		noFill();
 		stroke(50);
-		strokeWeight(5);
+		strokeWeight(3);
 
-	w = width - mrgn*2;
-	h = height - mrgn*2;
-	x = width*.5;
-	y = height*.5;
+	int cols = 3,
+		rows = 3;
+	float r = width/(cols+1);
 
-	points = new ArrayList<PVector>();
-	for(int a=0; a<360; a+=60) points.add(new PVector(x + cos(radians(a))*w, y + sin(radians(a))*h));
-
-	t_points = new ArrayList<PVector>();
-	generate();
-}
-
-void draw(){
-	background(200);
-	beginShape();
-		PVector prev = new PVector(x,y);
-		for(int i=0; i<points.size(); i++){
-			PVector p = points.get(i).lerp(t_points.get(i), .09);
-
-			vertex(p.x, p.y);
-			line(p.x, p.y, x, y);
-		}
-	endShape(CLOSE);
-
-}
-
-void keyPressed(){ generate(); }
-void generate(){
-	t_points.clear();
-	for(float alpha=random(60); t_points.size()<6; alpha+=random(50,70)){
-		float r = random(w*.1, w*.5);
-		t_points.add(new PVector(x + cos(radians(alpha)) * r, y + sin(radians(alpha)) *r));
-	}
-}
-
-/*
-// GRID
-float
-	mrgn = 1;
-int
-	cols = 6,
-	rows = 6;
-
-void draw(){
-	noLoop();
-	background(200);
-
-	float
-	 	w = width / ((cols+1)*mrgn),
-	 	h = height / ((rows+1)*mrgn);
+	cuboids = new ArrayList<Cuboid>();
 
 	for(int i=1; i<cols+1; i++){
 		for(int j=1; j<rows+1; j++){
 			float
-				x = i*mrgn*w,
-				y = j*mrgn*h;
+				x = i*r,
+				y = j*r;
 
-			ArrayList<PVector> points = new ArrayList<PVector>();
-
-			for(float alpha=random(60); points.size()<6; alpha+=random(50,70)){
-				float r = random(w*.1, w*.5);
-				points.add(new PVector(x + cos(radians(alpha)) * r, y + sin(radians(alpha)) *r));
-			}
-
-			beginShape();
-				PVector prev = new PVector(x,y);
-				for(PVector p : points){
-					vertex(p.x, p.y);
-					line(p.x, p.y, x, y);
-				}
-			endShape(CLOSE);
-
+			Cuboid q = new Cuboid(new PVector(x,y),r);
+			q.EASING = random(.05, .1);
+			cuboids.add( q );
 		}
 	}
 }
 
-void keyPressed(){ loop(); }
-*/
+void draw(){
+	// pushStyle();
+	// 	noStroke();
+	// 	fill(200,100);
+	// 	rect(0,0,width,height);
+	// popStyle();
+	background(200);
+
+	for(Cuboid q : cuboids) q.draw();
+}
+
+void keyPressed(){
+	if(key=='r') for(Cuboid q : cuboids) q.generate();
+}
