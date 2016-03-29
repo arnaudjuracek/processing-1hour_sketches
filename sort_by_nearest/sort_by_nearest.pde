@@ -5,7 +5,7 @@ import java.util.Iterator;
 ArrayList<PVector> POINTS;
 
 void setup(){
-	size(1200, 800, P2D);
+	size(800, 800, P2D);
 
 	// random points distribution
 	POINTS = new ArrayList<PVector>();
@@ -18,8 +18,12 @@ void setup(){
 void draw(){
 	background(30);
 
+	strokeWeight(1);
+	stroke(200);
+	for(PVector p : POINTS) point(p.x, p.y);
+
 	strokeWeight(3);
-	for(int c=1; c<POINTS.size(); c++){
+	for(int c=1; c<(frameCount*10)%POINTS.size(); c++){
 		stroke(map(c, 0, POINTS.size(), 0, 255), 0, 200);
 		line(POINTS.get(c).x, POINTS.get(c).y, POINTS.get(c-1).x, POINTS.get(c-1).y);
 	}
@@ -29,5 +33,12 @@ void draw(){
 }
 
 
-void mousePressed(){ POINTS = sort(POINTS, new PVector(mouseX, mouseY)); }
-void keyPressed(){ POINTS = sort(POINTS, POINTS.get(POINTS.size()-1)); }
+void mousePressed(){
+	frameCount = 0;
+	POINTS = sort(POINTS, new PVector(mouseX, mouseY));
+}
+
+void keyPressed(){
+	frameCount = 0;
+	POINTS = sort(POINTS, POINTS.get(POINTS.size()-1));
+}
