@@ -9,6 +9,7 @@ public class Triangle{
 		this.vertices[0] = v1;
 		this.vertices[1] = v2;
 		this.vertices[2] = v3;
+		this.vertices = this.sortVertices(this.vertices, new PVector(width/2,height/2));
 	}
 
 	Triangle(PVector center, float radius){
@@ -20,9 +21,20 @@ public class Triangle{
 			this.vertices[i] = new PVector(x,y);
 			a+=120;
 		}
+		this.vertices = this.sortVertices(this.vertices, new PVector(width/2, height/2));
 	}
 
-	PVector[][] getEdges(){
+	private PVector[] sortVertices(PVector[] to_sort, PVector sort_from){
+		ArrayList<PVector> sortable = new ArrayList<PVector>();
+		for(PVector p : to_sort) sortable.add(p);
+		Collections.sort(sortable, new DistanceComparator(sort_from));
+
+		PVector[] sorted = new PVector[to_sort.length];
+		for(int i=0; i<sorted.length; i++) sorted[i] = sortable.get(i);
+		return sorted;
+	}
+
+	public PVector[][] getEdges(){
 		PVector[][] edges = {
 			{this.vertices[0], this.vertices[1]},
 			{this.vertices[1], this.vertices[2]},
@@ -32,7 +44,7 @@ public class Triangle{
 		return edges;
 	}
 
-	PShape getShape(){
+	public PShape getShape(){
 		if(this.SHAPE==null){
 			this.SHAPE = createShape();
 			this.SHAPE.beginShape(POLYGON);
@@ -45,12 +57,12 @@ public class Triangle{
 		return this.SHAPE;
 	}
 
-	color getShade(){
-		if(this.SHADE==-1) this.SHADE = color( 255 * sq(map(degrees(PVector.angleBetween(this.vertices[0], this.vertices[1])), 0, 90, 1, 0)) );
+	public color getShade(){
+		if(this.SHADE==-1) this.SHADE = color(255 * sq(map(degrees(PVector.angleBetween(new PVector(mouseX, mouseY).normalize(), PVector.add(this.vertices[0], this.vertices[1]).add(this.vertices[2]))), 0, 90, 1, 0)));
 		return this.SHADE;
 	}
 
-	color getColor(){
+	public color getColor(){
 		if(this.COLOR==-1) this.COLOR = color(255 * sq(map(degrees(PVector.angleBetween(this.vertices[0], this.vertices[1])), 0, 90, 1, 0)), 255 * sq(map(degrees(PVector.angleBetween(this.vertices[1], this.vertices[2])), 0, 90, 1, 0)), 255 * sq(map(degrees(PVector.angleBetween(this.vertices[2], this.vertices[0])), 0, 90, 1, 0)));
 		return this.COLOR;
 	}
@@ -59,7 +71,7 @@ public class Triangle{
 	// CIRCUMCIRCLE
 
 	// see https://en.wikipedia.org/wiki/Circumscribed_circle#Circumcircle_equations
-	PVector getCenter(){
+	public PVector getCenter(){
 		if(this.CENTER==null){
 			PVector a = this.vertices[0], b = this.vertices[1], c = this.vertices[2];
 			float
@@ -71,7 +83,7 @@ public class Triangle{
 		return this.CENTER;
 	}
 
-	float getRadius(){
+	public float getRadius(){
 		if(this.RADIUS==-1){
 			float
 				a = PVector.dist(this.vertices[0], this.vertices[1]),

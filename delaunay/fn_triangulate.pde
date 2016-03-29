@@ -1,4 +1,4 @@
-ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sortFrom){
+ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sort_from){
 	// DELAUNAY TRIANGULATION
 	// see pseudocode @ http://paulbourke.net/papers/triangulate/
 	// subroutine triangulate
@@ -7,7 +7,7 @@ ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sortFrom)
 
 	// sort the vertex list for better efficiency
 	ArrayList<PVector> points = (ArrayList<PVector>) _points.clone();
-	if(sortFrom.length>0 && sortFrom[0]!=null) Collections.sort(points, new DistanceComparator(sortFrom[0]));
+	if(sort_from.length>0 && sort_from[0]!=null) Collections.sort(points, new DistanceComparator(sort_from[0]));
 
 	// initialize the triangle list
 	ArrayList<Triangle> triangles = new ArrayList<Triangle>();
