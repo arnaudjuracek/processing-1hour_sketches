@@ -1,4 +1,4 @@
-![preview](preview.gif?raw=true "preview")
+![preview](preview.png?raw=true "preview")
 
 ---
 work in progress
