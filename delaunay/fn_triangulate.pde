@@ -7,7 +7,12 @@ ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sort_from
 
 	// sort the vertex list for better efficiency
 	ArrayList<PVector> points = (ArrayList<PVector>) _points.clone();
-	if(sort_from.length>0 && sort_from[0]!=null) Collections.sort(points, new DistanceComparator(sort_from[0]));
+		// sort radially from a point
+		if(sort_from.length>0 && sort_from[0]!=null) Collections.sort(points, new DistanceComparator(sort_from[0]));
+
+		// sort from neighbor to neigbor, see https://github.com/arnaudjuracek/processing-1hour_sketches/tree/master/sort_by_nearest
+		// if(sort_from.length>0 && sort_from[0]!=null) points = sort(points, sort_from[0]);
+		// else points = sort(points);
 
 	// initialize the triangle list
 	ArrayList<Triangle> triangles = new ArrayList<Triangle>();
