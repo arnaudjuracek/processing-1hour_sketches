@@ -23,7 +23,7 @@ function 1hour(){
 	cd $DIR;
 	
 	#creating files
-	echo -e "![preview](preview.gif?raw=true "preview")\n-\n*Arnaud Juracek*, \`GNU GENERAL PUBLIC LICENSE Version 2, June 1991\`" > $DIR/README.md;
+	echo -e "![preview](preview.gif?raw=true "preview")\n-\n**Arnaud Juracek**, \`GNU GENERAL PUBLIC LICENSE Version 2, June 1991\`" > $DIR/README.md;
 	echo -e "/**\n * $NAME\n * by Arnaud Juracek\n * $DATE\n *\n * https://github.com/arnaudjuracek/processing-1hour_sketches/tree/master/$DIRNAME\n */\n\n\nvoid setup(){\n\tsize(800, 800, P2D);\n}\n\nvoid draw(){\n\t\n}" > $DIR/sketch/sketch.pde;
 	
 	#opening apps
