@@ -34,15 +34,18 @@ ArrayList<PVector> sort(ArrayList<PVector> to_sort, PVector... from){
 			for(int i=0; i<min(to_sort.size(), BUFFER_SIZE); i++) buffer.add(to_sort.get(i));
 
 			// DYNAMIC BUFFERING :
-			// sort the buffer by nearest from the center of points to sort
-			PVector centroid = to_sort.get(0).copy();
-			for(PVector p : to_sort) centroid.add(p);
-				centroid.div(to_sort.size());
-				centroid.lerp(to_sort.get(0), .1);
-			Collections.sort(buffer, new DistanceComparator(centroid));
+			// sort the buffer in a way that the gaps tend to be weighted for sorting
+			PVector sorted_centroid = sorted.get(0).copy();
+			PVector un_sorted_centroid = to_sort.get(0).copy();
+			for(PVector p : sorted) sorted_centroid.add(p);
+			for(PVector p : to_sort) un_sorted_centroid.add(p);
+			sorted_centroid.div(sorted.size());
+			sorted_centroid.lerp(sorted.get(0), .1);
+			un_sorted_centroid.div(to_sort.size());
+			Collections.sort(buffer, new DistanceComparator(PVector.lerp(sorted_centroid, un_sorted_centroid, -.1)));
 
-			// // STATIC BUFFERING :
-			// // sort the buffer by nearest from reference point
+			// STATIC BUFFERING :
+			// sort the buffer by nearest from reference point
 			// Collections.sort(buffer, new DistanceComparator((from.length>0) ? from[0] : new PVector(0,0)));
 
 			// add the first point of the buffer to the sorted, then remove it from the array to sort

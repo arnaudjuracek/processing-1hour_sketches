@@ -11,6 +11,14 @@ void setup(){
 
 	// random points distribution
 	POINTS = new ArrayList<PVector>();
+
+	// //circle
+	// for(int i=0; i<3000; i++){
+	// 	float a = random(TWO_PI), r = random(height/2), x = width/2 + r*sin(a), y = height/2 + r*cos(a);
+	// 	POINTS.add(new PVector(x,y));
+	// }
+
+	// //plan
 	for(int i=0; i<5000; i++) POINTS.add(new PVector(random(25, width - 25), random(25, height - 25)));
 
 	// //stable sphere
