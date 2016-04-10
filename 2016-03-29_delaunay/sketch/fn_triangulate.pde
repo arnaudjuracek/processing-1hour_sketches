@@ -9,6 +9,8 @@ ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sort_from
 	ArrayList<PVector> points = (ArrayList<PVector>) _points.clone();
 		// sort radially from a point
 		if(sort_from.length>0 && sort_from[0]!=null) Collections.sort(points, new DistanceComparator(sort_from[0]));
+		// else Collections.sort(points, new DistanceComparator(points.get(points.size()-1)));
+		else Collections.sort(points, new AngleComparator(new PVector(width/2, height/2)));
 
 		// sort from neighbor to neigbor, see https://github.com/arnaudjuracek/processing-1hour_sketches/tree/master/sort_by_nearest
 		// if(sort_from.length>0 && sort_from[0]!=null) points = sort(points, sort_from[0]);
@@ -35,11 +37,12 @@ ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sort_from
 			Triangle t = t_iter.next();
 			// calculate the triangle circumcircle center and radius
 			// if the point lies in the triangle circumcircle then
-			if(PVector.dist(p, t.getCenter()) + .00001 <= t.getRadius()){
+			if(PVector.dist(p, t.getCenter()) < t.getRadius()){
 				// add the three triangle edges to the edge buffer
 				for(PVector[] e : t.getEdges()) edges.add(e);
 				// remove the triangle from the triangle list
 				t_iter.remove();
+				triangles.remove(t);
 			}
 		 }
 
@@ -55,7 +58,7 @@ ArrayList<Triangle> triangulate(ArrayList<PVector> _points, PVector... sort_from
 		}
 
 		// add to the triangle list all triangles formed between the point and the edges of the enclosing polygon
-		for(PVector[] e : edges) triangles.add(new Triangle(e[1], e[0], p));
+		for(PVector[] e : edges) triangles.add(new Triangle(e[0], e[1], p));
 	}
 
 	// remove any triangles from the triangle list that use the supertriangle vertices

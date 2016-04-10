@@ -19,6 +19,27 @@ public class DistanceComparator implements Comparator<PVector>{
 
 }
 
+public class AngleComparator implements Comparator<PVector>{
+	private PVector point;
+	public AngleComparator(PVector node){ this.point = node; }
+
+	public int compare(PVector n1, PVector n2){
+		float d1 = 0, d2 = 0;
+
+		try{
+			if(n1 != null && n2 != null){
+				d1 = PVector.angleBetween(n1, this.point);
+				d2 = PVector.angleBetween(n2, this.point);
+			}
+		}catch(Exception e){
+			throw new RuntimeException("Error while comparing !");
+		}
+
+		return (n1 == null) ? -1 : ((n2 == null) ? 1 : ((Comparable<Float>) d1).compareTo(d2));
+	}
+
+}
+
 public class XComparator implements Comparator<PVector>{
 	private PVector point;
 	public XComparator(PVector node){ this.point = node; }

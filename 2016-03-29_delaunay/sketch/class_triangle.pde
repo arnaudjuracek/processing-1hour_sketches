@@ -9,7 +9,8 @@ public class Triangle{
 		this.vertices[0] = v1;
 		this.vertices[1] = v2;
 		this.vertices[2] = v3;
-		this.vertices = this.sortVertices(this.vertices, new PVector(width/2,height/2));
+		// this.vertices = this.sortVertices(this.vertices, new PVector(width/2,height/2));
+		this.vertices = this.sortVerticesByAngle(this.vertices, this.getCenter());
 	}
 
 	Triangle(PVector center, float radius){
@@ -21,7 +22,18 @@ public class Triangle{
 			this.vertices[i] = new PVector(x,y);
 			a+=120;
 		}
-		this.vertices = this.sortVertices(this.vertices, new PVector(width/2, height/2));
+		// this.vertices = this.sortVertices(this.vertices, new PVector(width/2,height/2));
+		this.vertices = this.sortVerticesByAngle(this.vertices, this.getCenter());
+	}
+
+	private PVector[] sortVerticesByAngle(PVector[] to_sort, PVector origin){
+		ArrayList<PVector> sortable = new ArrayList<PVector>();
+		for(PVector p : to_sort) sortable.add(p);
+		Collections.sort(sortable, new AngleComparator(origin));
+
+		PVector[] sorted = new PVector[to_sort.length];
+		for(int i=0; i<sorted.length; i++) sorted[i] = sortable.get(i);
+		return sorted;
 	}
 
 	private PVector[] sortVertices(PVector[] to_sort, PVector sort_from){
