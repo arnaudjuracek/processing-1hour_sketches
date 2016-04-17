@@ -16,6 +16,8 @@ void setup(){
 }
 
 void draw(){
+
+	// PLAY WITH THESE VARIABLES
 	float
 		resolution = 360*.7,
 		radius = 100,
@@ -27,6 +29,7 @@ void draw(){
 		n2 = map(mouseX, 0, width, 0, 1) * 10,
 		n3 = map(mouseY, 0, height, 0, 1) * 10;
 
+	// ------------------------------------
 	if(frameCount%10==0){
 		println("-----------------");
 		println("a  = " + a);
